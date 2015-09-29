@@ -13,15 +13,6 @@ public class Reconocedor {
      * @param matrices 
      */
     public void entrenar(ArrayList<Matriz> matrices){
-        int[][]m,pesos;
-        for (Matriz matriz : matrices) {
-            m = matriz.getMatriz();
-            for (int i = 0; i < m.length; i++) {
-                for (int j = 0; j < m[i].length; j++) {
-                    
-                }
-            }
-        }
         
     }
 
@@ -35,7 +26,13 @@ public class Reconocedor {
         return null;
     }
     
-    public static int[][] generarVector(int[][] m) {
+    /**
+     * Genera una matriz de 1xn (Vector) a partir de una matriz.
+     * @param m Recibe una matriz de enteros contenido en el ArrayList
+     *          que recibe el método entrenar().
+     * @return Retorna una matriz de 1xn.
+     */
+    public int[][] generarVector(int[][] m) {
         int w = m.length * m[0].length;
         int[][] resp = new int[1][w];
         int i = 0;
@@ -47,6 +44,23 @@ public class Reconocedor {
             }
         }
         }while(i<w);
+        return resp;
+    }
+    
+    /**
+     * Genera la transpuesta a partir de una matriz de 1xn.
+     * @param A Recibe la matriz generada por el método generarVector().
+     * @return Retorna una matriz de nx1.
+     */
+    public static int[][] transpuesta(int[][]A){
+        int[][]resp = new int[A[0].length][A.length];
+        
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < A[i].length; j++) {
+                resp[j][i] = A[i][j];
+            }
+        }
+        
         return resp;
     }
 }
