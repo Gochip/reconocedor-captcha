@@ -63,4 +63,35 @@ public class Reconocedor {
         
         return resp;
     }
+    
+    /**
+     * Realiza el producto entre dos matrices A,B y le resta 
+     * la matriz identidad I.
+     * @param A
+     * @param B
+     * @return Retorna una matriz de nxm.
+     */
+    public static int[][] producto(int[][] A, int[][] B) {
+        int suma = 0;
+        int result[][] = new int[A.length][B[0].length];
+        int I[][] = new int[A.length][B[0].length];
+
+        
+        for (int i = 0; i < I.length; i++) {
+            for (int j = 0; j < I[i].length; j++) {
+                if(i==j){
+                    I[i][j] = 1;
+                }
+            }
+        }
+        
+        for (int i = 0; i < A.length; i++) {
+            for (int j = 0; j < B[0].length; j++) {
+                for (int k = 0; k < B.length; k++) {
+                    result[i][j] += (A[i][k]*B[k][j])-I[i][j];
+                }
+            }
+        }
+        return result;
+    }
 }
