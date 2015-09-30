@@ -1,6 +1,8 @@
 package igu;
 
 import controlador.Controlador;
+import javax.swing.JFileChooser;
+import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
  *
@@ -22,21 +24,144 @@ public class VentanaPrincipal extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnSeleccionadas = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblImagenes = new javax.swing.JTable();
+        btnImagenReconocer = new javax.swing.JButton();
+        lblImagenReconocida = new javax.swing.JLabel();
+        lblImagenSeleccionada = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        btnSeleccionadas.setText("Seleccionar imagenes ");
+        btnSeleccionadas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSeleccionadasActionPerformed(evt);
+            }
+        });
+
+        tblImagenes.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null},
+                {null},
+                {null},
+                {null}
+            },
+            new String [] {
+                "Imagenes"
+            }
+        ));
+        jScrollPane1.setViewportView(tblImagenes);
+
+        btnImagenReconocer.setText("Imagen a reconocer");
+        btnImagenReconocer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImagenReconocerActionPerformed(evt);
+            }
+        });
+
+        lblImagenReconocida.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        lblImagenSeleccionada.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+
+        jButton1.setText("Reconocer");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(btnSeleccionadas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 268, Short.MAX_VALUE)
+                        .addComponent(lblImagenReconocida, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(46, 46, 46)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jButton1)
+                            .addComponent(btnImagenReconocer))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(193, 193, 193)
+                    .addComponent(lblImagenSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(232, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnSeleccionadas)
+                    .addComponent(btnImagenReconocer))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(18, 18, 18)
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(28, 28, 28)
+                        .addComponent(lblImagenReconocida, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(13, 13, 13)
+                        .addComponent(jButton1)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createSequentialGroup()
+                    .addGap(62, 62, 62)
+                    .addComponent(lblImagenSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(89, Short.MAX_VALUE)))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnSeleccionadasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeleccionadasActionPerformed
+        JFileChooser elegirArchivo = new JFileChooser();
+        //Activa para que puedan seleccionarse muchos archivos
+        elegirArchivo.setMultiSelectionEnabled(true);
+        //Filtro
+        FileNameExtensionFilter filtroImagen=new FileNameExtensionFilter("JPG, PNG , BPM","jpg","png","bmp");
+        elegirArchivo.setFileFilter(filtroImagen);
+        
+        if (elegirArchivo.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            //Archivos seleccionados 
+            //elegirArchivo.getSelectedFiles();
+        }
+    }//GEN-LAST:event_btnSeleccionadasActionPerformed
+
+    private void btnImagenReconocerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenReconocerActionPerformed
+       JFileChooser elegirArchivo = new JFileChooser();
+        //Filtro
+        FileNameExtensionFilter filtroImagen=new FileNameExtensionFilter("JPG, PNG , BPM","jpg","png","bmp");
+        elegirArchivo.setFileFilter(filtroImagen);
+        
+        if (elegirArchivo.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
+            //Archivo seleccionado
+            //elegirArchivo.getSelectedFile();
+        }
+    }//GEN-LAST:event_btnImagenReconocerActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnImagenReconocer;
+    private javax.swing.JButton btnSeleccionadas;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblImagenReconocida;
+    private javax.swing.JLabel lblImagenSeleccionada;
+    private javax.swing.JTable tblImagenes;
     // End of variables declaration//GEN-END:variables
 }
