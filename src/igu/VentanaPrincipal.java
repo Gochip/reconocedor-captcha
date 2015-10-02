@@ -6,10 +6,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
@@ -52,13 +54,13 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         tblImagenes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null},
-                {null},
-                {null},
-                {null}
+                {},
+                {},
+                {},
+                {}
             },
             new String [] {
-                "Imagenes"
+
             }
         ));
         jScrollPane1.setViewportView(tblImagenes);
@@ -136,6 +138,11 @@ public class VentanaPrincipal extends javax.swing.JFrame {
             File[] archivosSeleccionados = elegirArchivo.getSelectedFiles();
             try {
                 controlador.entrenar(archivosSeleccionados);
+                String[][] datos = new String[archivosSeleccionados.length][archivosSeleccionados.length];
+                for (int i = 0; i < archivosSeleccionados.length; i++) {
+                    datos[i][0] = archivosSeleccionados[i].getName();
+                }
+                tblImagenes.setModel(new DefaultTableModel(datos, new String[]{"Imagen"}));
             } catch (IOException ex) {
                 Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
                 JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -152,17 +159,24 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         if (elegirArchivo.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //Archivo seleccionado
             archivoSeleccionado = elegirArchivo.getSelectedFile();
-            lblImagenSeleccionada.setIcon(new ImageIcon(archivoSeleccionado.getAbsolutePath()));
+            BufferedImage im;
+            try {
+                im = ImageIO.read(archivoSeleccionado);
+                lblImagenSeleccionada.setIcon(new ImageIcon(im, "Imagen a reconocer"));
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, "No se pudo leer la imagen");
+            }
         }
     }//GEN-LAST:event_btnImagenReconocerActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            if(archivoSeleccionado != null){
+            if (archivoSeleccionado != null) {
                 BufferedImage imagen = controlador.reconocer(archivoSeleccionado);
-                if(imagen != null){
+                if (imagen != null) {
                     lblImagenReconocida.setIcon(new ImageIcon(imagen, "Imagen reconocida"));
-                }else{
+                } else {
                     JOptionPane.showMessageDialog(this, "No se reconoció la imagen");
                 }
             }
