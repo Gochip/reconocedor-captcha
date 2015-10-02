@@ -1,7 +1,13 @@
 package igu;
 
 import controlador.Controlador;
+import java.io.File;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 /**
@@ -10,6 +16,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     private final Controlador controlador;
+
     public VentanaPrincipal(Controlador controlador) {
         initComponents();
         this.controlador = controlador;
@@ -81,22 +88,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnSeleccionadas, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))
+                .addGap(46, 46, 46)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnImagenReconocer)
                     .addGroup(layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 268, Short.MAX_VALUE)
-                        .addComponent(lblImagenReconocida, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(46, 46, 46)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(jButton1)
-                            .addComponent(btnImagenReconocer))
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                            .addComponent(lblImagenSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 21, Short.MAX_VALUE)
+                        .addComponent(lblImagenReconocida, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(193, 193, 193)
-                    .addComponent(lblImagenSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(232, Short.MAX_VALUE)))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -105,21 +106,16 @@ public class VentanaPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnSeleccionadas)
                     .addComponent(btnImagenReconocer))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lblImagenSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lblImagenReconocida, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(18, 18, 18)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(28, 28, 28)
-                        .addComponent(lblImagenReconocida, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(13, 13, 13)
-                        .addComponent(jButton1)))
+                        .addComponent(jButton1))
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(layout.createSequentialGroup()
-                    .addGap(62, 62, 62)
-                    .addComponent(lblImagenSeleccionada, javax.swing.GroupLayout.PREFERRED_SIZE, 187, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(89, Short.MAX_VALUE)))
         );
 
         pack();
@@ -130,29 +126,41 @@ public class VentanaPrincipal extends javax.swing.JFrame {
         //Activa para que puedan seleccionarse muchos archivos
         elegirArchivo.setMultiSelectionEnabled(true);
         //Filtro
-        FileNameExtensionFilter filtroImagen=new FileNameExtensionFilter("JPG, PNG , BPM","jpg","png","bmp");
+        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("JPG, PNG , BPM", "jpg", "png", "bmp");
         elegirArchivo.setFileFilter(filtroImagen);
-        
+
         if (elegirArchivo.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //Archivos seleccionados 
-            //elegirArchivo.getSelectedFiles();
+            File[] archivosSeleccionados = elegirArchivo.getSelectedFiles();
+            try {
+                controlador.entrenar(archivosSeleccionados);
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
         }
     }//GEN-LAST:event_btnSeleccionadasActionPerformed
 
     private void btnImagenReconocerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImagenReconocerActionPerformed
-       JFileChooser elegirArchivo = new JFileChooser();
+        JFileChooser elegirArchivo = new JFileChooser();
         //Filtro
-        FileNameExtensionFilter filtroImagen=new FileNameExtensionFilter("JPG, PNG , BPM","jpg","png","bmp");
+        FileNameExtensionFilter filtroImagen = new FileNameExtensionFilter("JPG, PNG , BPM", "jpg", "png", "bmp");
         elegirArchivo.setFileFilter(filtroImagen);
-        
+
         if (elegirArchivo.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //Archivo seleccionado
-            //elegirArchivo.getSelectedFile();
+            File archivoSeleccionado = elegirArchivo.getSelectedFile();
+            try {
+                controlador.reconocer(archivoSeleccionado);
+            } catch (IOException ex) {
+                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+                JOptionPane.showMessageDialog(this, ex.getMessage());
+            }
         }
     }//GEN-LAST:event_btnImagenReconocerActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

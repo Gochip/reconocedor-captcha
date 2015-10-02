@@ -40,12 +40,11 @@ public class Controlador {
      * @param rutaImagenes
      * @throws java.io.IOException cuando ocurre un error al leer las imágenes.
      */
-    public void entrenar(List<String> rutaImagenes) throws IOException {
+    public void entrenar(File[] rutaImagenes) throws IOException {
         memoriaInterna = new HashMap<>();
         ArrayList<Matriz> matrices = new ArrayList<>();
         Conversor conversor = new Conversor();
-        for (String rutaImagen : rutaImagenes) {
-            File archivoImagen = new File(rutaImagen);
+        for (File archivoImagen : rutaImagenes) {
             BufferedImage bufer = ImageIO.read(archivoImagen);
             Matriz matriz = conversor.convertirAMatriz(bufer);
             memoriaInterna.put(matriz, bufer);
@@ -62,12 +61,11 @@ public class Controlador {
      * @return la imagen reconocida, null en caso que no exista.
      * @throws java.io.IOException cuando ocurre un error al leer las imágenes.
      */
-    public BufferedImage reconocer(String rutaImagen) throws IOException {
+    public BufferedImage reconocer(File archivoImagen) throws IOException {
         if (reconocedor != null) {
             throw new RuntimeException("Debe entrenar la red primero");
         }
         Conversor conversor = new Conversor();
-        File archivoImagen = new File(rutaImagen);
         BufferedImage bufer = ImageIO.read(archivoImagen);
         Matriz matriz = conversor.convertirAMatriz(bufer);
         Matriz matrizReconocida = reconocedor.reconocer(matriz);
