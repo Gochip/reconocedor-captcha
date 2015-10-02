@@ -14,7 +14,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 
 /**
- *
+ * Es la ventana principal.
  */
 public class VentanaPrincipal extends javax.swing.JFrame {
 
