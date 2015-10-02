@@ -6,12 +6,13 @@ import java.util.Arrays;
  *
  */
 public class Matriz {
+
     private int[][] matriz;
 
-    public Matriz (){
-        
+    public Matriz() {
+
     }
-    
+
     public Matriz(int[][] matriz) {
         this.matriz = matriz;
     }
@@ -19,16 +20,17 @@ public class Matriz {
     public int[][] getMatriz() {
         return matriz;
     }
-    
+
     @Override
     public int hashCode() {
         int hash = 7;
         hash = 19 * hash + Arrays.deepHashCode(this.matriz);
         return hash;
     }
-    
+
     /**
      * Genera una matriz de 1xn (Vector) a partir de una matriz.
+     *
      * @param m .
      * @return Retorna una matriz de 1xn.
      */
@@ -46,15 +48,16 @@ public class Matriz {
         } while (i < w);
         return resp;
     }
-    
+
     /**
      * Genera la transpuesta de una matriz.
+     *
      * @param A.
      * @return la transpuesta.
      */
-    public int[][] transpuesta(int[][]A){
-        int[][]resp = new int[A[0].length][A.length];
-        
+    public int[][] transpuesta(int[][] A) {
+        int[][] resp = new int[A[0].length][A.length];
+
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[i].length; j++) {
                 resp[j][i] = A[i][j];
@@ -62,36 +65,38 @@ public class Matriz {
         }
         return resp;
     }
-    
+
     /**
      * Realiza el producto entre dos matrices A,B.
+     *
      * @param A
      * @param B
      * @return Retorna una matriz de nxm.
      */
     public int[][] producto(int[][] A, int[][] B) {
         int result[][] = new int[A.length][B[0].length];
-        
+
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < B[0].length; j++) {
                 for (int k = 0; k < B.length; k++) {
-                    result[i][j] += A[i][k]*B[k][j];
+                    result[i][j] += A[i][k] * B[k][j];
                 }
             }
         }
         return result;
     }
-    
+
     /**
      * Le resta la matriz identidad a una matriz dada.
+     *
      * @param A
      * @return Retorna con la diagonal principal en cero.
      */
-    public int[][]restarIdentidad(int[][]A){
+    public int[][] restarIdentidad(int[][] A) {
         int I[][] = new int[A.length][A[0].length];
         for (int i = 0; i < I.length; i++) {
             for (int j = 0; j < I[i].length; j++) {
-                if(i==j){
+                if (i == j) {
                     I[i][j] = 1;
                 }
             }
@@ -103,9 +108,10 @@ public class Matriz {
         }
         return A;
     }
-    
+
     /**
      * Función de activación.
+     *
      * @param A
      * @return Retorna una matriz de 1 y -1.
      */
@@ -121,5 +127,17 @@ public class Matriz {
             }
         }
         return A;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < matriz.length; i++) {
+            for (int j = 0; j < matriz[i].length; j++) {
+                sb.append(matriz[i][j]).append(" ");
+            }
+            sb.append("\n");
+        }
+        return sb.toString();
     }
 }
