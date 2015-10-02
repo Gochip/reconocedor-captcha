@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import javax.imageio.ImageIO;
 import reconocedor.Reconocedor;
 
@@ -24,7 +25,8 @@ public class Controlador {
     /**
      * Memoria interna para guardar el mapeo entre el bufferedImage y la matriz.
      */
-    private HashMap<Matriz, BufferedImage> memoriaInterna;
+    private ArrayList<BufferedImage> memoriaInternaBufferedImage;
+    private ArrayList<Matriz> memoriaInternaMatrices;
 
     /**
      * Inicia la aplicación.
@@ -41,13 +43,15 @@ public class Controlador {
      * @throws java.io.IOException cuando ocurre un error al leer las imágenes.
      */
     public void entrenar(File[] rutaImagenes) throws IOException {
-        memoriaInterna = new HashMap<>();
+        memoriaInternaBufferedImage = new ArrayList<>();
+        memoriaInternaMatrices = new ArrayList<>();
         ArrayList<Matriz> matrices = new ArrayList<>();
         Conversor conversor = new Conversor();
         for (File archivoImagen : rutaImagenes) {
             BufferedImage bufer = ImageIO.read(archivoImagen);
             Matriz matriz = conversor.convertirAMatriz(bufer);
-            memoriaInterna.put(matriz, bufer);
+            memoriaInternaBufferedImage.add(bufer);
+            memoriaInternaMatrices.add(matriz);
             matrices.add(matriz);
         }
         reconocedor = new Reconocedor();
@@ -62,7 +66,7 @@ public class Controlador {
      * @throws java.io.IOException cuando ocurre un error al leer las imágenes.
      */
     public BufferedImage reconocer(File archivoImagen) throws IOException {
-        if (reconocedor != null) {
+        if (reconocedor == null) {
             throw new RuntimeException("Debe entrenar la red primero");
         }
         Conversor conversor = new Conversor();
@@ -70,7 +74,7 @@ public class Controlador {
         Matriz matriz = conversor.convertirAMatriz(bufer);
         Matriz matrizReconocida = reconocedor.reconocer(matriz);
         if (matrizReconocida != null) {
-            return obtenerBufferedImage(matriz);
+            return obtenerBufferedImage(matrizReconocida);
         } else {
             return null;
         }
@@ -78,10 +82,18 @@ public class Controlador {
 
     /**
      * A partir de una matriz retorna una BufferedImage.
+     *
      * @param matriz la matriz a buscar.
      * @return el BufferedImage.
      */
     private BufferedImage obtenerBufferedImage(Matriz matriz) {
-        return memoriaInterna.get(matriz);
+        int hashBuscado = matriz.getMatriz().hashCode();
+        for (int k = 0; k < memoriaInternaMatrices.size(); k++) {
+            int hash = memoriaInternaMatrices.get(k).getMatriz().hashCode();
+            if (hash == hashBuscado) {
+                return memoriaInternaBufferedImage.get(k);
+            }
+        }
+        return null;
     }
 }

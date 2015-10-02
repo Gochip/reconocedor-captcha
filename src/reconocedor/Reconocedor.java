@@ -9,54 +9,70 @@ import java.util.Arrays;
  * entrenamiento.
  */
 public class Reconocedor {
-    private int[][]pesos;
-    private ArrayList<Integer>hash;
-    
+
+    private int[][] pesos;
+    /*
+     Es un arreglo donde se mantiene un hash de cada matriz.
+     */
+    private ArrayList<Integer> hash;
+    private ArrayList<Matriz> matrices;
+
+    public Reconocedor() {
+        hash = new ArrayList<>();
+        matrices = new ArrayList<>();
+    }
+
     /**
      * Entrena la red a partir de las matrices.
+     *
      * @param matrices
      */
-    public void entrenar(ArrayList<Matriz> matrices){
+    public void entrenar(ArrayList<Matriz> matrices) {
         int h = matrices.get(0).getMatriz().length;
         int w = matrices.get(0).getMatriz()[0].length;
-        int[][]m,mt;
-        this.pesos = new int[h][w];
-        
+        int[][] m, mt;
+        this.pesos = new int[h * h][w * w];
+
         for (Matriz matriz : matrices) {
             m = matriz.getMatriz();
             m = matriz.generarVector(m);
+            this.hash.add(Arrays.deepHashCode(m));
+            this.matrices.add(matriz);
             mt = matriz.transpuesta(m);
-            m = matriz.producto(mt,m);
+            m = matriz.producto(mt, m);
             m = matriz.restarIdentidad(m);
-            this.hash.add(Arrays.deepHashCode(matriz.getMatriz()));
             for (int i = 0; i < m.length; i++) {
                 for (int j = 0; j < m[i].length; j++) {
                     this.pesos[i][j] += m[i][j];
                 }
             }
-            
+
         }
     }
 
     /**
      * Reconoce una matriz a partir de otra matriz.
+     *
      * @param matriz
      * @return la matriz reconocida. En caso de no reconocer ninguna retorna
      * null.
      */
     public Matriz reconocer(Matriz matriz) {
+        int cantidad = 100;
         int[][] m = matriz.getMatriz();
         m = matriz.generarVector(m);
-        int n = 0;
-        while (Arrays.deepHashCode(m) != this.hash.get(n)) {
+        for (int i = 0; i < cantidad; i++) {
+            int hashMatrizAReconocer = Arrays.deepHashCode(m);
+            for (int j = 0; j < hash.size(); j++){
+                int h = this.hash.get(j);
+                Matriz ma = this.matrices.get(j);
+                if (hashMatrizAReconocer == h) {
+                    return ma;
+                }
+            }
             m = matriz.producto(m, this.pesos);
             m = matriz.activar(m);
-            for (int hashC : this.hash) {
-                if (Arrays.deepHashCode(m) == this.hash.get(n)) {
-                    return matriz;
-                    }
-            }
-            n++;
+            
         }
         return null;
     }

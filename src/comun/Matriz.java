@@ -138,6 +138,7 @@ public class Matriz {
             }
             sb.append("\n");
         }
+        sb.append("HASH: ").append(hashCode());
         return sb.toString();
     }
 }

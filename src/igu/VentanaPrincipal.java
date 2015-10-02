@@ -1,6 +1,7 @@
 package igu;
 
 import controlador.Controlador;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.logging.Level;
@@ -16,6 +17,7 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class VentanaPrincipal extends javax.swing.JFrame {
 
     private final Controlador controlador;
+    private File archivoSeleccionado;
 
     public VentanaPrincipal(Controlador controlador) {
         initComponents();
@@ -149,18 +151,25 @@ public class VentanaPrincipal extends javax.swing.JFrame {
 
         if (elegirArchivo.showOpenDialog(this) == JFileChooser.APPROVE_OPTION) {
             //Archivo seleccionado
-            File archivoSeleccionado = elegirArchivo.getSelectedFile();
-            try {
-                controlador.reconocer(archivoSeleccionado);
-            } catch (IOException ex) {
-                Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
-                JOptionPane.showMessageDialog(this, ex.getMessage());
-            }
+            archivoSeleccionado = elegirArchivo.getSelectedFile();
+            lblImagenSeleccionada.setIcon(new ImageIcon(archivoSeleccionado.getAbsolutePath()));
         }
     }//GEN-LAST:event_btnImagenReconocerActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
+        try {
+            if(archivoSeleccionado != null){
+                BufferedImage imagen = controlador.reconocer(archivoSeleccionado);
+                if(imagen != null){
+                    lblImagenReconocida.setIcon(new ImageIcon(imagen, "Imagen reconocida"));
+                }else{
+                    JOptionPane.showMessageDialog(this, "No se reconoció la imagen");
+                }
+            }
+        } catch (IOException ex) {
+            Logger.getLogger(VentanaPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
