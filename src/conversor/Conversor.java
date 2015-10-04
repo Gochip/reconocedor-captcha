@@ -15,7 +15,9 @@ public class Conversor {
     public static final int BLANCO = -1;
     
     
+    //Metodo para cambiar tamaño
     public static BufferedImage resize(BufferedImage bufferedImage, int newW, int newH) {
+        
         int w = bufferedImage.getWidth();
         int h = bufferedImage.getHeight();
         BufferedImage bufim = new BufferedImage(newW, newH, bufferedImage.getType());
