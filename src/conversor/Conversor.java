@@ -29,7 +29,7 @@ public class Conversor {
     } 
 
     public Matriz convertirAMatriz(BufferedImage imagenR) {
-        BufferedImage imagen = resize(imagenR, 64,64);
+        BufferedImage imagen = resize(imagenR, 4,4);
         int altura = imagen.getHeight();
         int ancho = imagen.getWidth();
         int[][] matriz = new int[altura][ancho];

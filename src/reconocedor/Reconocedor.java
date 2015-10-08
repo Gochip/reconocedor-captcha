@@ -58,7 +58,7 @@ public class Reconocedor {
      * null.
      */
     public Matriz reconocer(Matriz matriz) {
-        int cantidad = 3;
+        int cantidad = 1000;
         int[][] m = matriz.getMatriz();
         m = matriz.generarVector(m);
         for (int i = 0; i < cantidad; i++) {
