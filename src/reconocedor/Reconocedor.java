@@ -10,7 +10,7 @@ import java.util.Arrays;
  */
 public class Reconocedor {
 
-    private int[][] pesos;
+    private double[][] pesos;
     /*
      Es un arreglo donde se mantiene un hash de cada matriz.
      */
@@ -30,8 +30,8 @@ public class Reconocedor {
     public void entrenar(ArrayList<Matriz> matrices) {
         int h = matrices.get(0).getMatriz().length;
         int w = matrices.get(0).getMatriz()[0].length;
-        int[][] m, mt;
-        this.pesos = new int[h * h][w * w];
+        double[][] m, mt;
+        this.pesos = new double[h * h][w * w];
 
         for (Matriz matriz : matrices) {
             m = matriz.getMatriz();
@@ -59,7 +59,7 @@ public class Reconocedor {
      */
     public Matriz reconocer(Matriz matriz) {
         int cantidad = 1000;
-        int[][] m = matriz.getMatriz();
+        double[][] m = matriz.getMatriz();
         m = matriz.generarVector(m);
         for (int i = 0; i < cantidad; i++) {
             int hashMatrizAReconocer = Arrays.deepHashCode(m);

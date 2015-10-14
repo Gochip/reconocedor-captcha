@@ -32,7 +32,7 @@ public class Conversor {
         BufferedImage imagen = resize(imagenR, 4,4);
         int altura = imagen.getHeight();
         int ancho = imagen.getWidth();
-        int[][] matriz = new int[altura][ancho];
+        double[][] matriz = new double[altura][ancho];
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[i].length; j++) {
                 if (imagen.getRGB(j, i) == -1) {

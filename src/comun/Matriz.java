@@ -7,17 +7,17 @@ import java.util.Arrays;
  */
 public class Matriz {
 
-    private int[][] matriz;
+    private double[][] matriz;
 
     public Matriz() {
 
     }
 
-    public Matriz(int[][] matriz) {
+    public Matriz(double[][] matriz) {
         this.matriz = matriz;
     }
 
-    public int[][] getMatriz() {
+    public double[][] getMatriz() {
         return matriz;
     }
 
@@ -34,9 +34,9 @@ public class Matriz {
      * @param m .
      * @return Retorna una matriz de 1xn.
      */
-    public int[][] generarVector(int[][] m) {
+    public double[][] generarVector(double[][] m) {
         int w = m.length * m[0].length;
-        int[][] resp = new int[1][w];
+        double[][] resp = new double[1][w];
         int i = 0;
         do {
             for (int j = 0; j < m.length; j++) {
@@ -55,8 +55,8 @@ public class Matriz {
      * @param A.
      * @return la transpuesta.
      */
-    public int[][] transpuesta(int[][] A) {
-        int[][] resp = new int[A[0].length][A.length];
+    public double[][] transpuesta(double[][] A) {
+        double[][] resp = new double[A[0].length][A.length];
 
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[i].length; j++) {
@@ -73,8 +73,8 @@ public class Matriz {
      * @param B
      * @return Retorna una matriz de nxm.
      */
-    public int[][] producto(int[][] A, int[][] B) {
-        int result[][] = new int[A.length][B[0].length];
+    public double[][] producto(double[][] A, double[][] B) {
+        double result[][] = new double[A.length][B[0].length];
 
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < B[0].length; j++) {
@@ -92,8 +92,8 @@ public class Matriz {
      * @param A
      * @return Retorna con la diagonal principal en cero.
      */
-    public int[][] restarIdentidad(int[][] A) {
-        int I[][] = new int[A.length][A[0].length];
+    public double[][] restarIdentidad(double[][] A) {
+        double I[][] = new double[A.length][A[0].length];
         for (int i = 0; i < I.length; i++) {
             for (int j = 0; j < I[i].length; j++) {
                 if (i == j) {
@@ -115,7 +115,7 @@ public class Matriz {
      * @param A
      * @return Retorna una matriz de 1 y -1.
      */
-    public int[][] activar(int[][] A) {
+    public double[][] activar(double[][] A) {
         for (int i = 0; i < A.length; i++) {
             for (int j = 0; j < A[i].length; j++) {
                 if (A[i][j] < 0) {
